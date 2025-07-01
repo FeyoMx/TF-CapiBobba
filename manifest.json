@@ -1,0 +1,42 @@
+{
+    "name": "CapiBobba Fidelidad",
+    "short_name": "CapiBobba",
+    "description": "Tarjeta de fidelidad digital de CapiBobba",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#f6e6f6",
+    "theme_color": "#8b5cf6",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "https://placehold.co/48x48/8b5cf6/ffffff?text=CB",
+            "sizes": "48x48",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/72x72/8b5cf6/ffffff?text=CB",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/96x96/8b5cf6/ffffff?text=CB",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/144x144/8b5cf6/ffffff?text=CB",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/192x192/8b5cf6/ffffff?text=CB",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/512x512/8b5cf6/ffffff?text=CB",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
