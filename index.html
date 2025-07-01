@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Fidelidad CapiBobba</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PWA: Link to manifest.json -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- PWA: Add Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="https://placehold.co/180x180/8b5cf6/ffffff?text=CB">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#fca3d4"> <!-- Theme color for browser UI -->
+
+    <style>
+        /* Custom font Poppins for a clean look, matching the menu */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        html, body {
+            height: 100%; /* Ensure html and body take full viewport height */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f6e6f6; /* Light CapiBobba Pink/Purple, matching menu background */
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            /* Add padding-bottom to body to make space for the fixed control panel */
+            padding-bottom: 70px; /* Estimated height of control panel */
+        }
+        .loyalty-card-container {
+            max-width: 450px; /* Max width for desktop */
+            width: 100%; /* Fluid width for mobile */
+            background-color: #ffffff; /* White card background */
+            border-radius: 1rem; /* More rounded corners, matching menu */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Hide overflow from rounded corners */
+            border: 2px solid #fce7f3; /* Softer border */
+            max-height: calc(100vh - 100px); /* Adjusted max-height to account for browser chrome and control panel */
+            overflow-y: auto; /* Allow internal scrolling if content exceeds max-height */
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0; /* Prevent card from shrinking unnecessarily */
+            margin: 20px auto; /* Add some vertical margin and center horizontally */
+            box-sizing: border-box;
+
+            position: relative; /* Needed for pseudo-element or overlay for opacity */
+        }
+
+        /* Overlay for watermark effect */
+        .loyalty-card-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://i.imgur.com/llR0NN0.png');
+            background-repeat: no-repeat;
+            background-position: center top 20px; /* Adjust as needed */
+            background-size: 80%; /* Adjust as needed */
+            opacity: 0.05; /* Adjusted transparency for better contrast (even lighter) */
+            pointer-events: none; /* Allow clicks to pass through */
+            z-index: 0; /* Ensure it's behind content */
+        }
+
+        /* Ensure content is above the watermark */
+        .loyalty-card-container > div {
+            position: relative;
+            z-index: 1;
+        }
+
+        .boba-stamp {
+            width: 50px; /* Standard width for numbered stamps */
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%; /* Circular for numbered stamps */
+            border: 2px dashed #d1d5db; /* Lighter gray dashed border for empty stamps (tailwind gray-300) */
+            color: #6b7280; /* Darker gray for numbers (tailwind gray-500) */
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            background-color: #fff;
+            flex-shrink: 0; /* Prevent shrinking on smaller screens */
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05); /* Inner shadow for depth */
+        }
+        .boba-stamp.filled {
+            background-color: #a78bfa; /* CapiBobba Purple - Filled stamp, matching menu highlights */
+            border-color: #a78bfa;
+            color: #ffffff; /* White text for filled stamps */
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.5); /* Glowing effect */
+            transform: scale(1.05); /* Slightly larger when filled */
+        }
+        .boba-stamp.reward {
+            width: 150px; /* Wider for the text legend */
+            height: 45px; /* Shorter to make it a pill shape */
+            border-radius: 9999px; /* Pill shape */
+            background-color: #8b5cf6; /* Darker CapiBobba Purple for reward */
+            border-color: #8b5cf6;
+            font-size: 14px; /* Larger font size for readability */
+            line-height: 1; /* Adjust line height for single line text */
+            color: #ffffff; /* Ensure text is white for contrast */
+            padding: 0 12px; /* Increased horizontal padding inside the pill */
+            text-align: center; /* Ensure text is centered */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center;
+            align-items: center;
+            white-space: nowrap; /* Prevent text from wrapping */
+            letter-spacing: 1px; /* Added letter spacing for "double spacing" effect */
+
+            /* New properties for spanning and centering in grid */
+            grid-column: 1 / -1; /* Span all columns in the grid */
+            justify-self: center; /* Center horizontally within its grid area */
+        }
+
+        /* Keyframes for the pulse animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); /* Purple shadow */
+            }
+            70% {
+                transform: scale(1.1);
+                box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+            }
+        }
+
+        /* Apply animation to the filled reward stamp */
+        .boba-stamp.reward.filled {
+            animation: pulse 1.5s infinite; /* 1.5 seconds duration, infinite loop */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .loyalty-card-container {
+                margin: 10px auto; /* Reduce vertical margin on mobile */
+            }
+            .boba-stamp {
+                width: 45px; /* Slightly smaller stamps on mobile */
+                height: 45px;
+            }
+            .boba-stamp.reward { /* Adjust size for smaller stamps on mobile */
+                width: 130px; /* Adjusted width on mobile */
+                height: 40px; /* Slightly smaller height on mobile */
+                font-size: 11px; /* Adjusted font size for smaller stamps on mobile */
+                padding: 0 10px; /* Adjusted horizontal padding on mobile */
+            }
+            .boba-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns on small screens */
+                gap: 16px; /* Slightly more gap */
+            }
+            .p-6 { /* Adjust general padding for content sections */
+                padding: 1.25rem; /* 20px */
+            }
+        }
+        /* Styles for the control panel (hidden when taking screenshot) */
+        .control-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            /* Add transition for hide/show effect */
+            transition: transform 0.3s ease-in-out;
+        }
+        .control-panel.hidden-controls {
+            transform: translateY(100%); /* Move out of view */
+        }
+        .control-panel label {
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+        .control-panel input[type="number"],
+        .control-panel input[type="text"] { /* Style for text input */
+            width: 120px; /* Adjust width for text input */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .control-panel button {
+            background-color: #8b5cf6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .control-panel button:hover {
+            background-color: #a78bfa;
+        }
+    </style>
+</head>
+<body>
+    <div class="loyalty-card-container">
+        <!-- The logo is now a background image on loyalty-card-container -->
+
+        <!-- Reward Program Details -->
+        <div class="p-6 text-center text-gray-800 flex-grow"> <!-- flex-grow to take available space -->
+            <h3 class="text-2xl font-bold mb-4">¡En tu sexta compra recibe una boba <span class="text-[#8b5cf6]">GRATIS</span>!</h3>
+            <p class="text-md mb-6 text-gray-600">Cada compra te da un sello.</p>
+
+            <!-- Client Identity Display -->
+            <p id="client-identity-display" class="text-lg font-semibold text-gray-800 mb-4"></p>
+
+            <!-- Boba Stamp Tracker -->
+            <div id="boba-tracker" class="boba-grid grid grid-cols-3 md:grid-cols-6 gap-6 justify-items-center mb-8">
+                <!-- Stamps will be dynamically inserted here by JavaScript -->
+            </div>
+
+            <!-- Reward Status Message -->
+            <div id="reward-status" class="bg-purple-100 text-purple-800 p-3 rounded-lg font-semibold text-sm mb-4 hidden">
+                ¡Felicidades! Has ganado una bebida gratis.
+            </div>
+
+            <!-- Expiration Date -->
+            <p class="text-sm font-medium text-gray-600">
+                Oferta válida hasta: <span id="expiration-date" class="font-bold text-gray-800"></span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Control Panel for setting stamps (for screenshot generation) -->
+    <div class="control-panel" id="control-panel">
+        <label for="client-identity">Cliente:</label>
+        <input type="text" id="client-identity" placeholder="Nombre o ID del cliente">
+        <label for="num-stamps">Sellos:</label>
+        <input type="number" id="num-stamps" min="0" max="7" value="0">
+        <button onclick="updateStampsFromInput()">Actualizar Tarjeta</button>
+        <button onclick="toggleControlPanel()" class="bg-gray-500 hover:bg-gray-600">Ocultar Controles</button>
+    </div>
+
+    <script>
+        // PWA: Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado con éxito:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Fallo el registro del Service Worker:', error);
+                    });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const bobaTracker = document.getElementById('boba-tracker');
+            const expirationDateSpan = document.getElementById('expiration-date');
+            const rewardStatus = document.getElementById('reward-status');
+            const numStampsInput = document.getElementById('num-stamps');
+            const clientIdentityInput = document.getElementById('client-identity');
+            const clientIdentityDisplay = document.getElementById('client-identity-display');
+
+            const TOTAL_STAMPS_REQUIRED = 6; // Purchases required for reward
+            const REWARD_SLOT = 7; // The 7th slot is the reward slot (visual representation)
+
+            // --- Set Expiration Date ---
+            // Set the expiration date directly to July 31st of the current year
+            const expiration = new Date(new Date().getFullYear(), 6, 31); // Month is 0-indexed, so 6 is July
+            expiration.setHours(23, 59, 59, 999); // Set to end of day for full validity
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            expirationDateSpan.textContent = expiration.toLocaleDateString('es-ES', options);
+
+            // --- Render Stamps based on provided number ---
+            window.renderStamps = function(stampsCollected, clientName = '') {
+                bobaTracker.innerHTML = ''; // Clear existing stamps
+                // Update client identity display
+                clientIdentityDisplay.textContent = clientName ? `Cliente: ${clientName}` : '';
+
+                // Loop to create 6 purchase stamps + 1 reward stamp
+                for (let i = 1; i <= TOTAL_STAMPS_REQUIRED + 1; i++) {
+                    const stampDiv = document.createElement('div');
+                    stampDiv.classList.add('boba-stamp');
+
+                    if (i <= TOTAL_STAMPS_REQUIRED) {
+                        // These are the purchase stamps
+                        stampDiv.textContent = i;
+                        if (i <= stampsCollected) {
+                            stampDiv.classList.add('filled');
+                        }
+                    } else {
+                        // This is the reward stamp (7th slot)
+                        stampDiv.classList.add('reward');
+                        stampDiv.textContent = 'Boba Gratis 🧋'; // Set text content directly
+                        
+                        if (stampsCollected >= TOTAL_STAMPS_REQUIRED) {
+                            // If enough stamps are collected, mark the reward as "earned"
+                            stampDiv.classList.add('filled');
+                        }
+                    }
+                    bobaTracker.appendChild(stampDiv);
+                }
+                updateRewardStatus(stampsCollected);
+            }
+
+            // --- Update Reward Status Message ---
+            function updateRewardStatus(stampsCollected) {
+                if (stampsCollected >= TOTAL_STAMPS_REQUIRED) {
+                    rewardStatus.classList.remove('hidden'); // Show reward message
+                } else {
+                    rewardStatus.classList.add('hidden'); // Hide reward message
+                }
+            }
+
+            // Function to update stamps based on input field
+            window.updateStampsFromInput = function() {
+                let num = parseInt(numStampsInput.value);
+                if (isNaN(num) || num < 0) num = 0;
+                if (num > REWARD_SLOT) num = REWARD_SLOT; // Max 7 (6 purchases + 1 reward)
+                numStampsInput.value = num; // Ensure input reflects valid number
+
+                const clientName = clientIdentityInput.value.trim(); // Get client name
+                renderStamps(num, clientName); // Pass client name to render function
+            };
+
+            // Function to toggle the visibility of the control panel
+            window.toggleControlPanel = function() {
+                const controlPanel = document.getElementById('control-panel');
+                controlPanel.classList.toggle('hidden-controls');
+            };
+
+            // Initial render with 0 stamps and empty client name
+            renderStamps(0, '');
+
+            // Listen for changes in the input fields
+            numStampsInput.addEventListener('change', updateStampsFromInput);
+            numStampsInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    updateStampsFromInput();
+                }
+            });
+            clientIdentityInput.addEventListener('change', updateStampsFromInput);
+            clientIdentityInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    updateStampsFromInput();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
