@@ -279,8 +279,8 @@
             const REWARD_SLOT = 7; // The 7th slot is the reward slot (visual representation)
 
             // --- Set Expiration Date ---
-            // Set the expiration date directly to July 31st of the current year
-            const expiration = new Date(new Date().getFullYear(), 6, 31); // Month is 0-indexed, so 6 is July
+            // Set the expiration date directly to August 31st of the current year
+            const expiration = new Date(new Date().getFullYear(), 7, 31); // Month is 0-indexed, so 7 is August
             expiration.setHours(23, 59, 59, 999); // Set to end of day for full validity
 
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -364,4 +364,3 @@
     </script>
 </body>
 </html>
-
