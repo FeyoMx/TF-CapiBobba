@@ -220,7 +220,7 @@
 
         <!-- Reward Program Details -->
         <div class="p-6 text-center text-gray-800 flex-grow"> <!-- flex-grow to take available space -->
-            <h3 class="text-2xl font-bold mb-4">¡En tu sexta compra recibe una boba <span class="text-[#8b5cf6]">GRATIS</span>!</h3>
+            <h3 class="text-2xl font-bold mb-4">¡En tu sexta compra recibe un CapiGofre <span class="text-[#8b5cf6]">GRATIS</span>!</h3>
             <p class="text-md mb-6 text-gray-600">Cada compra te da un sello.</p>
 
             <!-- Client Identity Display -->
@@ -233,7 +233,7 @@
 
             <!-- Reward Status Message -->
             <div id="reward-status" class="bg-purple-100 text-purple-800 p-3 rounded-lg font-semibold text-sm mb-4 hidden">
-                ¡Felicidades! Has ganado una bebida gratis.
+                ¡Felicidades! Has ganado un CapiGofre gratis.
             </div>
 
             <!-- Expiration Date -->
@@ -279,8 +279,8 @@
             const REWARD_SLOT = 7; // The 7th slot is the reward slot (visual representation)
 
             // --- Set Expiration Date ---
-            // Set the expiration date to October 31st, 2025
-            const expiration = new Date(2025, 9, 31); // Month is 0-indexed, so 9 is October
+            // Set the expiration date to November 30th, 2025
+            const expiration = new Date(2025, 10, 30); // Month is 0-indexed, so 10 is November
             expiration.setHours(23, 59, 59, 999); // Set to end of day for full validity
 
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -306,7 +306,7 @@
                     } else {
                         // This is the reward stamp (7th slot)
                         stampDiv.classList.add('reward');
-                        stampDiv.textContent = 'Boba Gratis 🧋'; // Set text content directly
+                        stampDiv.textContent = 'CapiGofre Gratis 🧇'; // Set text content directly
                         
                         if (stampsCollected >= TOTAL_STAMPS_REQUIRED) {
                             // If enough stamps are collected, mark the reward as "earned"
