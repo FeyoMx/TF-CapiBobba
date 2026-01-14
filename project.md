@@ -81,7 +81,7 @@ TF-CapiBobba/
 - Renderizado reactivo con `renderStamps(stampsCollected, clientName)`
 
 ### Sistema de Validación
-- Fecha de expiración fija: 30 de noviembre de 2025
+- Fecha de expiración fija: 31 de enero de 2026
 - Validación de inputs: Min 0, Max 7 sellos
 - Formato de fecha: `toLocaleDateString('es-ES')`
 
@@ -161,7 +161,7 @@ Recursos cacheados:
 - **Auto-deploy**: Habilitado via GitHub Actions
 
 ## Mantenimiento
-- Actualizar fecha de expiración manualmente en `index.html:283` (actualmente: 30 de noviembre de 2025)
+- Actualizar fecha de expiración manualmente en `index.html:283` (actualmente: 31 de enero de 2026)
 - Actualizar texto del premio en `index.html:223` y `index.html:236` (actualmente: CapiGofre)
 - Actualizar sello de recompensa en `index.html:309` (actualmente: CapiGofre Gratis 🧇)
 - Incrementar versión de caché en `service-worker.js:1` al hacer cambios

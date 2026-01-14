@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,40 +18,62 @@
     <style>
         /* Custom font Poppins for a clean look, matching the menu */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-        html, body {
-            height: 100%; /* Ensure html and body take full viewport height */
+
+        html,
+        body {
+            height: 100%;
+            /* Ensure html and body take full viewport height */
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f6e6f6; /* Light CapiBobba Pink/Purple, matching menu background */
-            display: flex;
-            flex-direction: column; /* Stack children vertically */
-            justify-content: center; /* Center content vertically */
-            align-items: center; /* Center content horizontally */
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            /* Add padding-bottom to body to make space for the fixed control panel */
-            padding-bottom: 70px; /* Estimated height of control panel */
-        }
-        .loyalty-card-container {
-            max-width: 450px; /* Max width for desktop */
-            width: 100%; /* Fluid width for mobile */
-            background-color: #ffffff; /* White card background */
-            border-radius: 1rem; /* More rounded corners, matching menu */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            overflow: hidden; /* Hide overflow from rounded corners */
-            border: 2px solid #fce7f3; /* Softer border */
-            max-height: calc(100vh - 100px); /* Adjusted max-height to account for browser chrome and control panel */
-            overflow-y: auto; /* Allow internal scrolling if content exceeds max-height */
+            background-color: #f6e6f6;
+            /* Light CapiBobba Pink/Purple, matching menu background */
             display: flex;
             flex-direction: column;
-            flex-shrink: 0; /* Prevent card from shrinking unnecessarily */
-            margin: 20px auto; /* Add some vertical margin and center horizontally */
+            /* Stack children vertically */
+            justify-content: center;
+            /* Center content vertically */
+            align-items: center;
+            /* Center content horizontally */
+            overflow-x: hidden;
+            /* Prevent horizontal scroll */
+            /* Add padding-bottom to body to make space for the fixed control panel */
+            padding-bottom: 70px;
+            /* Estimated height of control panel */
+        }
+
+        .loyalty-card-container {
+            max-width: 450px;
+            /* Max width for desktop */
+            width: 100%;
+            /* Fluid width for mobile */
+            background-color: #ffffff;
+            /* White card background */
+            border-radius: 1rem;
+            /* More rounded corners, matching menu */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            /* Hide overflow from rounded corners */
+            border: 2px solid #fce7f3;
+            /* Softer border */
+            max-height: calc(100vh - 100px);
+            /* Adjusted max-height to account for browser chrome and control panel */
+            overflow-y: auto;
+            /* Allow internal scrolling if content exceeds max-height */
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            /* Prevent card from shrinking unnecessarily */
+            margin: 20px auto;
+            /* Add some vertical margin and center horizontally */
             box-sizing: border-box;
 
-            position: relative; /* Needed for pseudo-element or overlay for opacity */
+            position: relative;
+            /* Needed for pseudo-element or overlay for opacity */
         }
 
         /* Overlay for watermark effect */
@@ -63,73 +86,107 @@
             bottom: 0;
             background-image: url('https://i.imgur.com/llR0NN0.png');
             background-repeat: no-repeat;
-            background-position: center top 20px; /* Adjust as needed */
-            background-size: 80%; /* Adjust as needed */
-            opacity: 0.05; /* Adjusted transparency for better contrast (even lighter) */
-            pointer-events: none; /* Allow clicks to pass through */
-            z-index: 0; /* Ensure it's behind content */
+            background-position: center top 20px;
+            /* Adjust as needed */
+            background-size: 80%;
+            /* Adjust as needed */
+            opacity: 0.05;
+            /* Adjusted transparency for better contrast (even lighter) */
+            pointer-events: none;
+            /* Allow clicks to pass through */
+            z-index: 0;
+            /* Ensure it's behind content */
         }
 
         /* Ensure content is above the watermark */
-        .loyalty-card-container > div {
+        .loyalty-card-container>div {
             position: relative;
             z-index: 1;
         }
 
         .boba-stamp {
-            width: 50px; /* Standard width for numbered stamps */
+            width: 50px;
+            /* Standard width for numbered stamps */
             height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 50%; /* Circular for numbered stamps */
-            border: 2px dashed #d1d5db; /* Lighter gray dashed border for empty stamps (tailwind gray-300) */
-            color: #6b7280; /* Darker gray for numbers (tailwind gray-500) */
+            border-radius: 50%;
+            /* Circular for numbered stamps */
+            border: 2px dashed #d1d5db;
+            /* Lighter gray dashed border for empty stamps (tailwind gray-300) */
+            color: #6b7280;
+            /* Darker gray for numbers (tailwind gray-500) */
             font-weight: 600;
             transition: all 0.3s ease-in-out;
             background-color: #fff;
-            flex-shrink: 0; /* Prevent shrinking on smaller screens */
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.05); /* Inner shadow for depth */
+            flex-shrink: 0;
+            /* Prevent shrinking on smaller screens */
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+            /* Inner shadow for depth */
         }
+
         .boba-stamp.filled {
-            background-color: #a78bfa; /* CapiBobba Purple - Filled stamp, matching menu highlights */
+            background-color: #a78bfa;
+            /* CapiBobba Purple - Filled stamp, matching menu highlights */
             border-color: #a78bfa;
-            color: #ffffff; /* White text for filled stamps */
-            box-shadow: 0 0 15px rgba(167, 139, 250, 0.5); /* Glowing effect */
-            transform: scale(1.05); /* Slightly larger when filled */
+            color: #ffffff;
+            /* White text for filled stamps */
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.5);
+            /* Glowing effect */
+            transform: scale(1.05);
+            /* Slightly larger when filled */
         }
+
         .boba-stamp.reward {
-            width: 150px; /* Wider for the text legend */
-            height: 45px; /* Shorter to make it a pill shape */
-            border-radius: 9999px; /* Pill shape */
-            background-color: #8b5cf6; /* Darker CapiBobba Purple for reward */
+            width: 150px;
+            /* Wider for the text legend */
+            height: 45px;
+            /* Shorter to make it a pill shape */
+            border-radius: 9999px;
+            /* Pill shape */
+            background-color: #8b5cf6;
+            /* Darker CapiBobba Purple for reward */
             border-color: #8b5cf6;
-            font-size: 14px; /* Larger font size for readability */
-            line-height: 1; /* Adjust line height for single line text */
-            color: #ffffff; /* Ensure text is white for contrast */
-            padding: 0 12px; /* Increased horizontal padding inside the pill */
-            text-align: center; /* Ensure text is centered */
-            display: flex; /* Use flexbox for centering */
+            font-size: 14px;
+            /* Larger font size for readability */
+            line-height: 1;
+            /* Adjust line height for single line text */
+            color: #ffffff;
+            /* Ensure text is white for contrast */
+            padding: 0 12px;
+            /* Increased horizontal padding inside the pill */
+            text-align: center;
+            /* Ensure text is centered */
+            display: flex;
+            /* Use flexbox for centering */
             justify-content: center;
             align-items: center;
-            white-space: nowrap; /* Prevent text from wrapping */
-            letter-spacing: 1px; /* Added letter spacing for "double spacing" effect */
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+            letter-spacing: 1px;
+            /* Added letter spacing for "double spacing" effect */
 
             /* New properties for spanning and centering in grid */
-            grid-column: 1 / -1; /* Span all columns in the grid */
-            justify-self: center; /* Center horizontally within its grid area */
+            grid-column: 1 / -1;
+            /* Span all columns in the grid */
+            justify-self: center;
+            /* Center horizontally within its grid area */
         }
 
         /* Keyframes for the pulse animation */
         @keyframes pulse {
             0% {
                 transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); /* Purple shadow */
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+                /* Purple shadow */
             }
+
             70% {
                 transform: scale(1.1);
                 box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
             }
+
             100% {
                 transform: scale(1);
                 box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
@@ -138,32 +195,49 @@
 
         /* Apply animation to the filled reward stamp */
         .boba-stamp.reward.filled {
-            animation: pulse 1.5s infinite; /* 1.5 seconds duration, infinite loop */
+            animation: pulse 1.5s infinite;
+            /* 1.5 seconds duration, infinite loop */
         }
 
         /* Responsive adjustments */
         @media (max-width: 640px) {
             .loyalty-card-container {
-                margin: 10px auto; /* Reduce vertical margin on mobile */
+                margin: 10px auto;
+                /* Reduce vertical margin on mobile */
             }
+
             .boba-stamp {
-                width: 45px; /* Slightly smaller stamps on mobile */
+                width: 45px;
+                /* Slightly smaller stamps on mobile */
                 height: 45px;
             }
-            .boba-stamp.reward { /* Adjust size for smaller stamps on mobile */
-                width: 130px; /* Adjusted width on mobile */
-                height: 40px; /* Slightly smaller height on mobile */
-                font-size: 11px; /* Adjusted font size for smaller stamps on mobile */
-                padding: 0 10px; /* Adjusted horizontal padding on mobile */
+
+            .boba-stamp.reward {
+                /* Adjust size for smaller stamps on mobile */
+                width: 130px;
+                /* Adjusted width on mobile */
+                height: 40px;
+                /* Slightly smaller height on mobile */
+                font-size: 11px;
+                /* Adjusted font size for smaller stamps on mobile */
+                padding: 0 10px;
+                /* Adjusted horizontal padding on mobile */
             }
+
             .boba-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns on small screens */
-                gap: 16px; /* Slightly more gap */
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                /* 3 columns on small screens */
+                gap: 16px;
+                /* Slightly more gap */
             }
-            .p-6 { /* Adjust general padding for content sections */
-                padding: 1.25rem; /* 20px */
+
+            .p-6 {
+                /* Adjust general padding for content sections */
+                padding: 1.25rem;
+                /* 20px */
             }
         }
+
         /* Styles for the control panel (hidden when taking screenshot) */
         .control-panel {
             position: fixed;
@@ -172,9 +246,10 @@
             width: 100%;
             background-color: #fff;
             padding: 10px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
-            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+            flex-wrap: wrap;
+            /* Allow items to wrap on smaller screens */
             justify-content: center;
             align-items: center;
             gap: 10px;
@@ -184,22 +259,29 @@
             /* Add transition for hide/show effect */
             transition: transform 0.3s ease-in-out;
         }
+
         .control-panel.hidden-controls {
-            transform: translateY(100%); /* Move out of view */
+            transform: translateY(100%);
+            /* Move out of view */
         }
+
         .control-panel label {
             font-weight: 600;
             color: #4a4a4a;
         }
+
         .control-panel input[type="number"],
-        .control-panel input[type="text"] { /* Style for text input */
-            width: 120px; /* Adjust width for text input */
+        .control-panel input[type="text"] {
+            /* Style for text input */
+            width: 120px;
+            /* Adjust width for text input */
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 8px;
             text-align: center;
             font-size: 1rem;
         }
+
         .control-panel button {
             background-color: #8b5cf6;
             color: white;
@@ -209,18 +291,21 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         .control-panel button:hover {
             background-color: #a78bfa;
         }
     </style>
 </head>
+
 <body>
     <div class="loyalty-card-container">
         <!-- The logo is now a background image on loyalty-card-container -->
 
         <!-- Reward Program Details -->
         <div class="p-6 text-center text-gray-800 flex-grow"> <!-- flex-grow to take available space -->
-            <h3 class="text-2xl font-bold mb-4">¡En tu sexta compra recibe un CapiGofre <span class="text-[#8b5cf6]">GRATIS</span>!</h3>
+            <h3 class="text-2xl font-bold mb-4">¡En tu sexta compra recibe un CapiGofre <span
+                    class="text-[#8b5cf6]">GRATIS</span>!</h3>
             <p class="text-md mb-6 text-gray-600">Cada compra te da un sello.</p>
 
             <!-- Client Identity Display -->
@@ -232,7 +317,8 @@
             </div>
 
             <!-- Reward Status Message -->
-            <div id="reward-status" class="bg-purple-100 text-purple-800 p-3 rounded-lg font-semibold text-sm mb-4 hidden">
+            <div id="reward-status"
+                class="bg-purple-100 text-purple-800 p-3 rounded-lg font-semibold text-sm mb-4 hidden">
                 ¡Felicidades! Has ganado un CapiGofre gratis.
             </div>
 
@@ -279,15 +365,15 @@
             const REWARD_SLOT = 7; // The 7th slot is the reward slot (visual representation)
 
             // --- Set Expiration Date ---
-            // Set the expiration date to November 30th, 2025
-            const expiration = new Date(2025, 10, 30); // Month is 0-indexed, so 10 is November
+            // Set the expiration date to January 31st, 2026
+            const expiration = new Date(2026, 0, 31); // Month is 0-indexed, so 0 is January
             expiration.setHours(23, 59, 59, 999); // Set to end of day for full validity
 
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             expirationDateSpan.textContent = expiration.toLocaleDateString('es-ES', options);
 
             // --- Render Stamps based on provided number ---
-            window.renderStamps = function(stampsCollected, clientName = '') {
+            window.renderStamps = function (stampsCollected, clientName = '') {
                 bobaTracker.innerHTML = ''; // Clear existing stamps
                 // Update client identity display
                 clientIdentityDisplay.textContent = clientName ? `Cliente: ${clientName}` : '';
@@ -307,7 +393,7 @@
                         // This is the reward stamp (7th slot)
                         stampDiv.classList.add('reward');
                         stampDiv.textContent = 'CapiGofre Gratis 🧇'; // Set text content directly
-                        
+
                         if (stampsCollected >= TOTAL_STAMPS_REQUIRED) {
                             // If enough stamps are collected, mark the reward as "earned"
                             stampDiv.classList.add('filled');
@@ -328,7 +414,7 @@
             }
 
             // Function to update stamps based on input field
-            window.updateStampsFromInput = function() {
+            window.updateStampsFromInput = function () {
                 let num = parseInt(numStampsInput.value);
                 if (isNaN(num) || num < 0) num = 0;
                 if (num > REWARD_SLOT) num = REWARD_SLOT; // Max 7 (6 purchases + 1 reward)
@@ -339,7 +425,7 @@
             };
 
             // Function to toggle the visibility of the control panel
-            window.toggleControlPanel = function() {
+            window.toggleControlPanel = function () {
                 const controlPanel = document.getElementById('control-panel');
                 controlPanel.classList.toggle('hidden-controls');
             };
@@ -363,4 +449,5 @@
         });
     </script>
 </body>
+
 </html>

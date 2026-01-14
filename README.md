@@ -10,7 +10,7 @@ La tarjeta está diseñada para ser generada y enviada como una imagen a los cli
    * Muestra visualmente el progreso de las compras del cliente (hasta 6 sellos).
    * El sello de recompensa final ("Boba Gratis 🧋") tiene una forma de píldora alargada con doble espaciado y una animación de pulso cuando se ha ganado la recompensa.
  * Identificación del Cliente: Permite mostrar el nombre o ID del cliente en la tarjeta para una personalización instantánea.
- * Fecha de Validez: Muestra claramente la fecha de caducidad de la promoción (fijada al 31 de julio del año actual).
+ * Fecha de Validez: Muestra claramente la fecha de caducidad de la promoción (fijada al 31 de enero de 2026).
  * Panel de Control (Solo para Staff): Un panel ocultable en la parte inferior permite al personal establecer el número de sellos y la identidad del cliente para generar la imagen de la tarjeta.
  * Capacidades PWA:
    * Instalable: Los usuarios pueden añadir la tarjeta a su pantalla de inicio como una aplicación nativa.
