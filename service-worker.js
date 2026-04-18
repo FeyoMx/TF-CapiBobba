@@ -1,4 +1,4 @@
-const CACHE_NAME = 'capibobba-loyalty-card-v2';
+const CACHE_NAME = 'capibobba-loyalty-card-v3';
 const urlsToCache = [
     '/', // Root of your application (index.html)
     '/index.html',
