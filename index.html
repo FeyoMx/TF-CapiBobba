@@ -271,9 +271,10 @@
         }
 
         .control-panel input[type="number"],
-        .control-panel input[type="text"] {
+        .control-panel input[type="text"],
+        .control-panel input[type="date"] {
             /* Style for text input */
-            width: 120px;
+            width: 130px;
             /* Adjust width for text input */
             padding: 8px;
             border: 1px solid #ccc;
@@ -349,6 +350,8 @@
         <input type="text" id="client-identity" placeholder="Nombre o ID del cliente">
         <label for="num-stamps">Sellos:</label>
         <input type="number" id="num-stamps" min="0" max="7" value="0">
+        <label for="expiration-input">Vence:</label>
+        <input type="date" id="expiration-input" value="2026-04-30">
         <button onclick="updateStampsFromInput()">Actualizar Tarjeta</button>
         <button onclick="toggleControlPanel()" class="bg-gray-500 hover:bg-gray-600">Ocultar Controles</button>
     </div>
@@ -374,17 +377,23 @@
             const numStampsInput = document.getElementById('num-stamps');
             const clientIdentityInput = document.getElementById('client-identity');
             const clientIdentityDisplay = document.getElementById('client-identity-display');
+            const expirationInput = document.getElementById('expiration-input');
 
             const TOTAL_STAMPS_REQUIRED = 6; // Purchases required for reward
             const REWARD_SLOT = 7; // The 7th slot is the reward slot (visual representation)
 
-            // --- Set Expiration Date ---
-            // Set the expiration date to March 31st, 2026
-            const expiration = new Date(2026, 3, 30); // Month is 0-indexed, so 3 is April
-            expiration.setHours(23, 59, 59, 999); // Set to end of day for full validity
-
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            expirationDateSpan.textContent = expiration.toLocaleDateString('es-ES', options);
+            // --- Update Expiration Date ---
+            function updateExpirationDate() {
+                const dateVal = expirationInput.value;
+                if (dateVal) {
+                    const [year, month, day] = dateVal.split('-');
+                    const expiration = new Date(year, month - 1, day);
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    expirationDateSpan.textContent = expiration.toLocaleDateString('es-ES', options);
+                } else {
+                    expirationDateSpan.textContent = "No definida";
+                }
+            }
 
             // --- Render Stamps based on provided number ---
             window.renderStamps = function (stampsCollected, clientName = '') {
@@ -436,6 +445,7 @@
 
                 const clientName = clientIdentityInput.value.trim(); // Get client name
                 renderStamps(num, clientName); // Pass client name to render function
+                updateExpirationDate(); // Update expiration date based on input
             };
 
             // Function to toggle the visibility of the control panel
@@ -444,8 +454,8 @@
                 controlPanel.classList.toggle('hidden-controls');
             };
 
-            // Initial render with 0 stamps and empty client name
-            renderStamps(0, '');
+            // Initial render
+            updateStampsFromInput();
 
             // Listen for changes in the input fields
             numStampsInput.addEventListener('change', updateStampsFromInput);
@@ -456,6 +466,12 @@
             });
             clientIdentityInput.addEventListener('change', updateStampsFromInput);
             clientIdentityInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    updateStampsFromInput();
+                }
+            });
+            expirationInput.addEventListener('change', updateStampsFromInput);
+            expirationInput.addEventListener('keyup', (event) => {
                 if (event.key === 'Enter') {
                     updateStampsFromInput();
                 }
